@@ -1,7 +1,7 @@
 # A content crowdfunding platform
 This is the application code for a content publishing platform with crowdfunding and paywall features.
 
-See a live version at [uncomma.com](uncomma.com)
+See a live version at [https://uncomma.com](https://uncomma.com)
 
 ### Warning
 MVP quality code (there are no tests lol).
