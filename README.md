@@ -1,24 +1,5 @@
-# README
+# A content crowdfunding platform
+This is the application code for a content publishing platform with crowdfunding and paywall features.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+### Technical Stuff
+The application is built on Rails.
