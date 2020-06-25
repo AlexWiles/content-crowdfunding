@@ -1,0 +1,178 @@
+- content_for(:html_title) { "Publish free, paid and crowdfunded content." }
+- content_for(:meta_description) { "Crowdfund your content. Publish free, paid, or crowdfunded digital projects on Uncomma."}
+- content_for(:meta_image) { image_url('ogimage.png') }
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+    .text-smaller.d-flex.justify-content-end.align-items-end.h-100
+      - unless current_user.present?
+        a.mr-3.d-none.d-md-block href=new_user_session_url Log in
+        a href=new_user_registration_url Sign Up
+
+.container
+  - header_url = image_url('index/wave.svg')
+  .row.justify-content-center.align-items-center.py-1 style="min-height: 90vh; background-image: url('#{header_url}'); background-position: center bottom; background-repeat: no-repeat;"
+    .col-12.col-lg-10
+      .row.pb-5
+        .col-12.col-lg-5.my-5.d-flex.flex-column.justify-content-center
+          .px-2
+            .mb-3
+              h1
+                span A publishing plaform for independent creators
+            .mb-3
+              div
+                | Publish free, paid and crowdfunded projects.
+              div
+                span.penmarked-pink-dark Publishing is completely free.
+              div
+                | We only make money when you do.
+            div
+              - resource = User.new
+              - resource_name = :user
+              = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+                .d-flex.flex-wrap
+                  .mb-2
+                    = render "devise/shared/error_messages", resource: resource
+                  .mb-2.mr-2.flex-grow-1 style="max-width: 350px;"
+                    = f.email_field :email, type: "email", autocomplete: "email", class: "form-control", placeholder: "Email", style: "height: 52px;"
+                  .mb-2
+                    = f.submit "Start creating", class: "btn btn-success font-weight-medium", style: "font-size: 1.6rem;"
+
+        .col-12.col-lg-7.my-5.d-flex.flex-column.justify-content-center
+          picture
+            source.shadow type="image/webp" srcset=image_url('screenshot/fancyscreenshot.webp') style="margin: 0 auto; display: block; width: 100%; height: auto; max-height: 700px;"
+            img src=image_url('screenshot/fancyscreenshot.png') style="margin: 0 auto; display: block; width: 100%; height: auto; max-height: 700px;"
+
+.container
+  .row.justify-content-center.align-items-center.pt-1.pb-3.bg-brand-tan
+    .col-12.col-lg-10
+      .row.justify-content-center.my-4
+        .col-12.col-md-6.text-center
+          h2 What is Uncomma?
+          p Uncomma is a content publishing platform with tools for crowdfunding and selling digital projects.
+      .row.justify-content-between.my-4
+        .col-12.col-md-4.px-4
+          h4
+            span.penmarked-pink-dark Publish for free
+          p Publish a blog, newsletter, or short project on Uncomma for free without limits.
+        .col-12.col-md-4.px-4
+          h4
+            span.penmarked-pink-dark Crowdfund projects
+          p Raise money from your fans and spend more time working on projects your audience wants.
+        .col-12.col-md-4.px-4
+          h4
+            span.penmarked-pink-dark Sell your content
+          p Charge your audience a one-time fee for access to a project. Great for courses, books and other digital resources.
+
+
+.container
+  .row.justify-content-center
+    .col-12.col-md-10.col-lg-8.max-width-content.my-5
+      .mb-4
+        h4 Learn more about projects on Uncomma
+      - featured_1 = Project.find_by(special_id: "featured_1")
+      - if featured_1.present?
+        .mb-4
+          = render partial: "projects/new_row", locals: {project: featured_1}
+
+      - featured_2 = Project.find_by(special_id: "featured_2")
+      - if featured_2.present?
+        .mb-4
+          = render partial: "projects/new_row", locals: {project: featured_2}
+
+      - featured_3 = Project.find_by(special_id: "featured_3")
+      - if featured_3.present?
+        .mb-4
+          = render partial: "projects/new_row", locals: {project: featured_3}
+
+
+.container.bg-brand-tan
+  .row.justify-content-center.py-5
+    .col-12.col-md-10.col-lg-8.max-width-content
+      h4 Publish for free with no limits
+      p You can publish as many projects with as much content as you want. We only make money when you do. We take 10% plus credit card fees on transactions that run through Uncomma.
+
+      div
+        - resource = User.new
+        - resource_name = :user
+        = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+          .d-flex.flex-wrap
+            .mb-2
+              = render "devise/shared/error_messages", resource: resource
+            .mb-2.mr-2.flex-grow-1 style="max-width: 350px;"
+              = f.email_field :email, type: "email", autocomplete: "email", class: "form-control", placeholder: "Email", style: "height: 52px;"
+            .mb-2
+              = f.submit "Start publishing", class: "btn btn-success font-weight-medium", style: "font-size: 1.6rem;"
+
+
+.container
+  .row.justify-content-center.p5-4
+    .col-12.col-lg-8
+      .row.mb-4.mt-5
+        .col-12.px-2
+          h2 How Uncomma works
+      .row
+        .col-12.pb-5
+          .row
+            .order-2.order-md-1.col-12.col-md-6.mt-5.mt-md-2.px-2
+              h4
+                span.penmarked-pink-dark Creator launches a project
+              p The creator launches a project with a funding goal and a description of what they want to create.
+              p The project will have a page on Uncomma that asks fans to pledge money.
+            .order-1.order-md-2.col-12.col-md-6.d-flex.align-items-center
+              picture
+                source.shadow type="image/webp" srcset=image_url('screenshot/funding_bar.webp') style="margin: 0 auto; display: block; width: 100%; height: auto; max-width: 400px;"
+                img.shadow src=image_url('screenshot/funding_bar.png') style="margin: 0 auto; display: block; width: 100%; height: auto; max-width: 400px;"
+          .row style="padding-top: 4rem;"
+            .col-12.col-md-6.d-flex.align-items-center
+              picture
+                source.shadow type="image/webp" srcset=image_url('screenshot/back.webp') style="margin: 0 auto; display: block; width: 100%; height: auto; max-width: 400px;"
+                img.shadow src=image_url('screenshot/back.png') style="margin: 0 auto; display: block; width: 100%; height: auto; max-width: 400px;"
+            .col-12.col-md-6.mt-5.mt-md-2.px-2
+              h4
+                span.penmarked-pink-dark Fans pledge money
+              p Fans get exclusive access to the content as it is created in exchange for pledging money.
+              p Payment info is collected and stored securely using Stripe. It will not be charged until the project reaches the funding goal. If the project is not successful, they will never be charged.
+          .row style="padding-top: 4rem;"
+            .order-2.order-md-1.col-12.col-md-6.mt-5.mt-md-2.px-2
+              h4
+                span.penmarked-pink-dark The project is funded
+              p If the project reaches the funding goal before the deadline, it is considered funded.
+              p The pledged money is charged and transfered to the creator. Now the creator can start making and publishing content.
+              p When a new post is published in the project, the backers will get notified and have exclusive access.
+            .order-1.order-md-2.col-12.col-md-6.d-flex.align-items-center
+              picture
+                source.shadow type="image/webp" srcset=image_url('screenshot/new_post.webp') style="margin: 0 auto; display: block; width: 100%; height: auto; max-width: 400px;"
+                img.shadow src=image_url('screenshot/new_post.png') style="margin: 0 auto; display: block; width: 100%; height: auto; max-width: 400px;"
+          .row style="padding-top: 4rem;"
+            .col-12.col-md-6.d-flex.align-items-center
+              picture
+                source.shadow type="image/webp" srcset=image_url('screenshot/sell.webp') style="margin: 0 auto; display: block; width: 100%; height: auto; max-width: 400px;"
+                img.shadow src=image_url('screenshot/sell.png') style="margin: 0 auto; display: block; width: 100%; height: auto; max-width: 400px;"
+            .col-12.col-md-6.mt-5.mt-md-2.px-2
+              h4
+                span.penmarked-pink-dark New fans can purchase access
+              p The creator can set a price and continue to charge for access to the content after the project is completed. That way, fans that did not back the crowdfunding campaign can still support the creator.
+
+//.container
+  //.row.justify-content-center.my-4
+    //.col-12.col-md-8
+      //.w-100.bg-brand-black style="height: 2px;"
+
+.container
+  .row.justify-content-center.bg-brand-tan style="padding-top: 6rem; padding-bottom: 6rem;"
+    .col-12.col-lg-10.col-xl-8.max-width-content
+      .row
+        .col-12.col-md-6.d-flex.justify-content-center.align-items-center.p-3
+          img src=image_url('undraw/selfie.svg') style="width: 100%; max-width: 300px; max-height: 300px;"
+        .col-12.col-md-6.d-flex.flex-column.justify-content-center
+          h4 Launch a project today
+          p Publish free, paid and crowdfunded projects today
+          - resource = User.new
+          - resource_name = :user
+          = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+            = render "devise/shared/error_messages", resource: resource
+            .form-group
+              = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "Email"
+            .actions.mb-2
+              = f.submit "Start creating", class: "btn btn-success font-weight-medium", style: "font-size: 1.6rem;"

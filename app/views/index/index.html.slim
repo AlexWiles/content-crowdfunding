@@ -1,0 +1,72 @@
+- content_for(:html_title) { "Publish free, paid and crowdfunded content." }
+- content_for(:meta_description) { "Crowdfund your content. Publish free, paid, or crowdfunded digital projects on Uncomma."}
+- content_for(:meta_image) { image_url('ogimage.png') }
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+    .text-smaller.d-flex.justify-content-end.align-items-end.h-100
+      - unless current_user.present?
+        a.mr-3.d-none.d-md-block href=new_user_session_url Log in
+        a href=new_user_registration_url Sign Up
+
+.container
+  .row.pb-2.justify-content-center style="min-height: 90vh"
+    .col-12
+      .row.justify-content-center.border-bottom
+        .col-12.col-md-10.col-lg-8.max-width-content.mt-3.mb-4
+          .row
+            .col-12
+              .row
+                .col-12
+                  h1 A publishing platform for independent creators.
+              .row.mt-1.mb-2
+                .col-12
+                  h5 style="font-weight: 300; font-size: 1.4rem; line-height: 1.4"
+                    | Publish content for free. Crowdfund a project. Sell premium content. It's all up to you.
+              .d-flex.justify-content-between
+              - resource = User.new
+              - resource_name = :user
+              = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+                .d-flex.flex-wrap
+                  .mb-2
+                    = render "devise/shared/error_messages", resource: resource
+                  .mb-2.mr-2.flex-grow-1 style="max-width: 350px;"
+                    = f.email_field :email, type: "email", autocomplete: "email", class: "form-control", placeholder: "Email", style: "height: 52px;"
+                  .mb-2
+                    = f.submit "Start creating", class: "btn btn-success font-weight-medium", style: "font-size: 1.6rem;"
+
+      .row.justify-content-center
+        .col-12.col-md-10.col-lg-8.max-width-content.my-4
+          - featured_1 = Project.find_by(special_id: "featured_1")
+          - if featured_1.present?
+            .mb-4
+              = render partial: "projects/new_row", locals: {project: featured_1}
+
+          - featured_2 = Project.find_by(special_id: "featured_2")
+          - if featured_2.present?
+            .mb-4
+              = render partial: "projects/new_row", locals: {project: featured_2}
+
+          - featured_3 = Project.find_by(special_id: "featured_3")
+          - if featured_3.present?
+            .mb-4
+              = render partial: "projects/new_row", locals: {project: featured_3}
+
+- unless current_user.present?
+  .container
+    .row.justify-content-center.py-4.border-top
+      .col-12.col-md-10.col-lg-8.max-width-content.mb-4
+        .row
+          .col-12.col-md-6.d-flex.justify-content-center.align-items-center.p-3
+            img src=image_url('undraw/selfie.svg') style="width: 100%; max-width: 350px; max-height: 350px;"
+          .col-12.col-md-6.d-flex.flex-column.justify-content-center
+            h4.mb-3 Create a project today
+            - resource = User.new
+            - resource_name = :user
+            = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+              = render "devise/shared/error_messages", resource: resource
+              .form-group
+                = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "Email"
+              .actions.mb-2
+                = f.submit "Start creating", class: "btn btn-success font-weight-medium", style: "font-size: 1.6rem;"
+

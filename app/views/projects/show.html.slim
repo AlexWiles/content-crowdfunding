@@ -1,0 +1,105 @@
+= content_for(:html_title) { @project.title }
+= content_for(:meta_description) { @project.description }
+= content_for(:meta_image) { @project.first_image_url || @project.user.avatar_url}
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: false}} do
+    - if @project.is_users(current_user)
+      .mr-3.d-flex.align-items-center
+        - if @project.unpublished?
+          = link_to user_project_settings_url(current_user, @project, subdomain: "") do
+            = render partial: "shared/publish_state", locals: {publishable: @project}
+        - else
+          = render partial: "shared/publish_state", locals: {publishable: @project}
+      .mr-3.d-flex.align-items-center
+        = react React::ProjectSettingsDropdown, @project
+    - elsif !current_user
+      .d-flex.justify-content-end.align-items-center.h-100
+        = link_to root_url(subdomain: "") do
+          .btn.btn-sm.btn-outline-primary style="padding: 1px 5px !important;" Start publishing
+
+
+.container
+  .row.pb-2.justify-content-center style="min-height: 90vh"
+    .col-12
+      .row.justify-content-center.border-bottom
+        .col-12.col-md-10.col-lg-8.max-width-content.my-4
+          .row.justify-content-center
+            .col-12.d-flex.flex-column.justify-content-center
+              = render partial: 'shared/title_description', locals: {object: @project}
+              .row
+                .col-12.d-flex.justify-content-between.align-items-center
+                  .d-flex.align-items-center
+                    = link_to root_url(subdomain: @project.user.slug) do
+                      - if @project.user.avatar.attached?
+                        .div style="height: 25px; width: 25px; border-radius: 25px;"
+                          img style="height: 100%; width: 100%; border-radius: 20px; object-fit: cover" src=AttachmentService.cdn_url(@project.user.avatar.variant(resize_to_limit: [100, 100]))
+                      - else
+                        div style="width: 20px; height: 20px; border-radius: 25px; background-color: #{@project.user.color}"
+
+                    .d-flex.flex-column.justify-content-center.mt-1.ml-2 style="line-height: 1.2rem;"
+                      .mb-0 style="font-size: 0.9rem" = link_to @project.user.display_name || @project.user.username, root_url(subdomain: @project.user.slug)
+
+                  .d-flex
+                    - if @project.published?
+                      .share-icons.d-flex.jusify-content-end.align-items-center
+                        a.mr-3 href=ShareService.project_twitter_url(@project)
+                          = react_component "FaTwitterSquare"
+                        a.mr-3 href=ShareService.project_facebook_url(@project)
+                          = react_component "FaFacebookSquare"
+
+      .row
+        .col-12
+          = render partial: "projects/show/cta", locals: {project: @project, user: current_user}
+
+      .row.justify-content-center
+        .col-12.col-md-10.col-lg-8.max-width-content.border-bottom
+          .d-flex.justify-content-between.flex-wrap-reverse
+            ul.nav.d-flex.flex-row.text-smaller
+              li.nav-item
+                - active_class = @view == "details" ? "active font-weight-medium border-bottom-strong" : ""
+                = link_to "Details", project_url(@project), class: "py-3 flex-sm-fill nav-link #{active_class}"
+              li.nav-item
+                - active_class = @view == "posts" ? "active font-weight-medium border-bottom-strong" : ""
+                a href=project_posts_url(@project) class="py-3 flex-sm-fill nav-link #{active_class}"
+                  = "Posts "
+                  - if @post_count > 0
+                    sup = @post_count
+            .d-flex.align-items-center
+              - if @project.is_users(current_user)
+                = link_to new_project_post_path(@project, subdomain: current_user.slug), data: { turbolinks: false } do
+                  .btn.btn-outline-success.btn-sm New Post
+
+
+      .row.justify-content-center
+        .col-12.col-md-10.col-lg-8.max-width-content.pb-4
+          .row.mb-5
+            .col-12
+              - if @view == "details"
+                .mt-3.mb-5
+                  - if @project.body
+                    - begin
+                      == DraftJsService.browser(@project.body)
+                    - rescue => e
+                      - Rollbar.error(e)
+                      = react React::ProjectBody, @project
+              - else
+                - can_see_content, reason = ContentService.user_can_see(current_user, @project)
+
+                - if @project.is_users(current_user) && @draft_list.size > 0
+                  .d-flex.flex-column
+                    .mt-2
+                      .font-weight-medium.text-smaller = "Drafts #{@draft_list.size}"
+                    .pt-2
+                      - @draft_list.each.with_index do |post, index|
+                        .mb-3
+                          = render partial: "posts/row", locals: {post: post, user: current_user, show_author: false, can_see_content: can_see_content, index: index}
+
+                .d-flex.flex-column.pt-2
+                  - if @project.is_users(current_user)
+                    .mt-2
+                      .text-smaller.font-weight-medium = "Published #{@published_list.size}"
+                  .pt-2
+                    - @published_list.each.with_index do |post, index|
+                      .mb-3
+                        = render partial: "posts/row", locals: {post: post, user: current_user, can_see_content: can_see_content, index: index}

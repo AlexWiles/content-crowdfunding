@@ -1,0 +1,21 @@
+- user
+- project
+- crowdfund = project.crowdfund
+
+.row.d-flex.justify-content-center.border-bottom
+  .col-12.col-md-10.col-lg-8.py-3.max-width-content
+    .d-flex.justify-content-between.flex-wrap
+      .font-weight-medium Help fund this project!
+      .d-flex.text-right.align-items-center
+        .font-weight-medium
+          = "#{crowdfund.duration} days remaining"
+    .d-flex.flex-grow-1.text-smaller.mt-2
+      = render partial: "paywalls/crowdfund/funding_bar", locals: {options: {backer_count: true, show_bar: true}, project: project, paywall: project.current_paywall}
+
+    .row.mt-4
+      .col-12.d-flex.flex-wrap.justify-content-between
+        .text-smaller.line-height-1-2.pb-2 style="max-width: 350px;"
+          | This is a preview. Please publish the project to activate the crowdfunding campaign.
+        .d-flex.align-items-center.pb-2
+          .btn.btn-success.disabled
+            | Back it

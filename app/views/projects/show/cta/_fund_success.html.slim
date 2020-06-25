@@ -1,0 +1,12 @@
+- user
+- project
+- crowdfund = project.crowdfund
+
+.row.d-flex.justify-content-center.border-bottom
+  .col-12.col-md-10.col-lg-8.py-3.max-width-content
+    - pledge = crowdfund.for_user(user)
+    - if pledge
+      .text-smaller = "You pledged #{pledge.amount.format(no_cents: true)}"
+    .text-smaller This project was successfully funded
+    .d-flex.flex-grow-1.text-smaller.text-muted.mt-1
+      = render partial: "paywalls/crowdfund/funding_bar", locals: {options: {backer_count: true, show_bar: true}, project: project, paywall: project.current_paywall}

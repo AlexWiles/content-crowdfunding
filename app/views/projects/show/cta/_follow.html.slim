@@ -1,0 +1,12 @@
+- user
+- project
+
+.row.d-flex.justify-content-center.border-bottom
+  .col-12.col-md-10.col-lg-8.max-width-content.py-3.d-flex.align-items-center
+    .d-flex.align-items-center.mr-3
+      div
+        = react React::FollowButton, user, project
+    .d-flex.flex-column
+      .font-weight-light.text-bigger
+        span.font-weight-medium = @project.title
+        span = " by #{@project.user.display_name || @project.user.slug}"

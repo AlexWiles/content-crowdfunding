@@ -1,0 +1,28 @@
+.container style="min-height: 90vh"
+  .row.pb-2.justify-content-center.mt-4
+    .col-12.col-md-10.col-lg-8.max-width-content
+      .d-flex.align-items-center
+        a href=root_url(subdomain: @user.slug)
+          div style="height: 50px; width: 50px; border-radius: 100px; background-color: #{@user.color}"
+            - if @user.avatar.attached?
+              - url = AttachmentService.cdn_url(@user.avatar.variant(resize_to_limit: [200, 200]))
+              img style="height: 100%; width: 100%; border-radius: 100px; object-fit: cover" src=url
+
+        .d-flex.flex-column.justify-content-center.ml-2
+          a href=root_url(subdomain: @user.slug)
+            h3.mb-0= @user.display_name.presence || @user.slug
+          .text-muted.text-smaller= link_to root_url(subdomain: @user.slug)
+
+      .row.border-bottom
+        - if @user.id == current_user&.id
+          .col-12.text-muted.text-smaller.d-flex.justify-content-end
+            = link_to "Edit", settings_url(subdomain: ""), class: "text-muted"
+
+
+      .row.my-4
+        .col-12
+          .row
+            .col-12
+              - @user.projects.published.order(published_at: :desc).each do |project|
+                .mb-4
+                  = render partial: "projects/new_row", locals: {project: project}

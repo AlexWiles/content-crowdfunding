@@ -1,0 +1,19 @@
+.container.text-smaller style="min-height: 70vh"
+
+  = render partial: "devise/shared/brand"
+  = render partial: "devise/shared/nav"
+
+  .row.justify-content-center
+    .col-12.col-md-5.border.p-3.m-4
+      .mb-4
+        h4 Get started
+
+      = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+        = render "devise/shared/error_messages", resource: resource
+        .form-group
+          = f.label :email
+          br/
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+        .actions.mb-2
+          = f.submit "Sign up", class: "btn btn-primary"
+      = render "devise/shared/links"

@@ -1,0 +1,23 @@
+- paywall
+- short = short.nil? ? false : short
+
+- if paywall.crowdfund?
+
+  - if paywall.failed?
+    .text-smaller.text-muted.d-flex
+      .d-flex.flex-column.justify-content-center
+        span Funding cancelled.
+
+  - elsif paywall.successful?
+    .text-smaller.text-muted
+      span = "Funded by "
+      span.font-weight-medium= number_of_backers(paywall)
+
+  - elsif paywall.published?
+    .text-smaller.text-muted.line-height-1-2.d-flex
+      = render partial: "paywalls/crowdfund/funding_bar", locals: {options: {backer_count: true, show_bar: true}, project: paywall.project, paywall: paywall}
+
+  - elsif paywall.unpublished?
+    .text-smaller.text-muted.d-flex
+      = "Goal: #{goal_formatted(paywall)}"
+

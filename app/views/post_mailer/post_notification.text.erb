@@ -1,0 +1,20 @@
+<%= @post.title %>
+
+<%= @post.description %>
+
+<%= @project.title %>
+
+<%= @post.project.user.display_name %>
+
+<%= @post.published_at&.strftime("%b %d, %Y") %>
+
+================================
+
+<%= strip_tags(DraftJsService.email(@post.body)) %>
+
+================================
+
+<%= "© #{DateTime.current.year} #{@project.user.display_name}" %>
+
+unsubscribe: <%= settings_emails_url %>
+

@@ -1,0 +1,16 @@
+= content_for(:html_title) { "Not Found" }
+
+= content_for(:navbar) do
+  = render layout: "layouts/nav_container", locals: {options: {sticky: false}} do
+    .d-flex.justify-content-center.w-100
+      = render partial: "layouts/nav_brand"
+
+
+.container style="min-height: 90vh"
+  .row.justify-content-center.py-2
+    .col-12.col-md-8 style="max-width: 800px"
+      .row.mt-5
+        .col-12.text-center
+          h5 404, not found.
+          = link_to "head back home", root_url
+

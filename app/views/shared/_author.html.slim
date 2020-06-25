@@ -1,0 +1,24 @@
+- user
+- publishable
+- image_size ||= :normal
+- dim = image_size == :small ? 35 : 50
+- name_size = image_size == :small ? "0.9rem" : "1rem"
+- date_size = image_size == :small ? "0.8rem" : "0.9rem"
+
+.d-flex
+
+  .pr-2.d-flex.flex-column.justify-content-center
+    = link_to root_url(subdomain: user.slug) do
+      - if user.avatar.attached?
+        .div style="height: #{dim}px; width: #{dim}px; border-radius: 25px;"
+          img style="height: 100%; width: 100%; border-radius: 25px; object-fit: cover" src=AttachmentService.cdn_url(user.avatar.variant(resize_to_limit: [100, 100]))
+      - else
+        div style="width: #{dim}px; height: #{dim}px; border-radius: 25px; background-color: #{user.color}"
+
+  .d-flex.flex-column.justify-content-center.mt-1 style="line-height: 1.2rem;"
+    .mb-0 style="font-size: #{name_size}" = link_to user.display_name || user.username, root_url(subdomain: user.slug)
+    - if publishable.published?
+      .text-muted style="font-size: #{date_size}" = publishable.published_at&.strftime("%B %d, %Y")
+    - else
+      .text-muted style="font-size: #{date_size}"
+        ="#{publishable&.created_at&.strftime("%B %d, %Y")}"

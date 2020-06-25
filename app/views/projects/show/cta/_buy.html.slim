@@ -1,0 +1,23 @@
+- project
+- user
+- formatted_amount = project.paywalls.buy.first.amount.format(no_cents: true)
+
+.row.d-flex.justify-content-center.border-bottom
+  .col-12.col-md-10.col-lg-8.max-width-content.pt-3.pb-4
+
+    .d-flex.flex-column.mb-2 style="max-width: 500px;"
+      .d-flex
+        h5 = "Get access to this project for #{formatted_amount}"
+      .d-flex
+        .text-muted.text-smaller.line-height-1-2 = "Support this creator by purchasing permanent access to this project for #{formatted_amount}."
+    .d-flex.align-items-center
+      - if project.published?
+        div
+          a.btn.btn-success style="min-width: 200px;" href=user_project_buy_path(project.user, project)
+            | Buy now
+      - else
+        div
+          .btn.btn-success.disabled style="min-width: 200px;"
+            | Buy now
+          .d-flex.text-smaller.text-muted.mt-2
+            | This is a preview. Publish the project to activate the paywall.

@@ -1,0 +1,17 @@
+- path = @post.id ? user_project_post_path(current_user, @project, @post) : user_project_posts_path(current_user, @project)
+
+= form_for @post, url: path do |f|
+  = content_for(:navbar) do
+    = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+      - if @post.project.is_users(current_user) && @post.id
+        .mr-3.d-flex.flex-column.justify-content-center.text-smaller
+          = react React::PostSettingsDropdown, @post
+
+  .container
+    .row.justify-content-center.mb-2
+      .col-12.col-md-10.col-lg-8.max-width-content
+        .row.mt-4.mb-1
+          .col-12
+            = render partial: "posts/project_title", locals: {post: @post}
+      .col-12
+        = react React::PostForm, @post

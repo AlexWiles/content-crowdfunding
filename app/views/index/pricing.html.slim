@@ -1,0 +1,9 @@
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+    .text-smaller.d-flex.justify-content-end.align-items-end.h-100
+      a.mr-3 href=about_url About
+      a.font-weight-bold.mr-3 href=pricing_url Pricing
+      - unless current_user.present?
+        a.mr-3.d-none.d-md-block href=new_user_session_url Log in
+        a href=new_user_registration_url Sign Up

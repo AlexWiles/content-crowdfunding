@@ -1,0 +1,22 @@
+- if paywall.can_update_amount?
+  = form_for paywall, url: paywall_path(paywall) do |f|
+    .row
+      .col
+        strong
+          = f.label :amount, "Fundraising Goal"
+    .row
+      .col
+        .input-group style="max-width: 150px"
+          .input-group-prepend
+            .input-group-text $
+          = f.number_field :amount, step: 1, class: "form-control"
+    .row.mt-2
+      .col
+        = f.submit "Save", class: "btn btn-primary"
+- else
+  .row
+    .col
+      strong Fundraising Goal
+  .row
+    .col
+      = paywall.amount

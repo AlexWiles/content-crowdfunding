@@ -1,0 +1,39 @@
+table cellpadding="0" cellspacing="0" width="100%" background="#ffffff"
+  tr
+    td width="600" style="font-family: Helvetica, Arial, sans-serif;"
+      table width="600" align="center" style="width: 600px; margin: 0 auto 0 auto;"
+        tr
+          td
+            span style="color: #333333; font-size: 14px;"
+              = "From "
+              = link_to "#{@project.title}", project_url(@project, subdomain: @project.user.slug), style: "text-decoration: underline; color: #222222;"
+        tr
+          td
+            h1 style="font-weight: 500; margin: 5px 0px; font-family: Helvetica, Arial, sans-serif; "
+              = link_to @post.title, project_post_url(@project, @post, subdomain: @project.user.slug), style: "text-decoration: none; color: #222222;"
+            h3 style="font-weight: 300; margin: 5px 0px" = @post.description
+        tr
+          td style="font-size: 16px; color: #222222; font-size: 14px;"
+            = link_to @project.user.display_name || @project.user.slug, root_url(subdomain: @project.user.slug), style: "color: #222222; text-decoration: none;"
+            | &nbsp; 	&#8226; &nbsp;
+            span = @post.published_at&.strftime("%b %d, %Y")
+
+        tr
+          br/
+
+        tr
+          td
+            br
+            == DraftJsService.email(@post.body)
+            br/
+            br/
+
+        tr
+          td style="background-color: #f9f9f9;"
+            br/
+            div style="text-align: center; color: #999999; font-size: 14px;" ="© #{DateTime.current.year} #{@project.user.display_name}"
+            br/
+            div style="text-align: center;"
+              a href=settings_emails_url style="color: #999999; font-size: 14px;"
+                | unsubscribe
+            br/

@@ -1,0 +1,23 @@
+= content_for(:html_title) { "Settings - #{@project.title}" }
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+    - if @project.is_users(current_user)
+      .mr-3.d-flex.align-items-center
+        = react React::ProjectSettingsDropdown, @project
+
+.container#settings
+  .row.justify-content-center.mb-2
+    .col-12.col-md-10.col-lg-8.max-width-content.pb-5
+      .row.my-4
+        .col-12
+          .text-muted
+            = link_to @project.title || "New project", user_project_path(current_user, @project, subdomain: current_user.slug), class: "text-muted"
+
+      .row.my-4.pb-4.border-bottom
+        .col-12
+          = render partial: "projects/settings/publishing", locals: {user: current_user, project: @project}
+
+      .row
+        .col-12
+          = render partial: "projects/settings/delete", locals: {user: current_user, project: @project}

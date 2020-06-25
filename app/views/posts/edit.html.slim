@@ -1,0 +1,4 @@
+- content_for(:html_title) { ["Edit", @post.project.title, @post.title].join(" - ") }
+- content_for(:hide_footer) { "true" }
+
+= render "posts/form"

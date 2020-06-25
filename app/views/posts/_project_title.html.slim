@@ -1,0 +1,6 @@
+- post
+
+= link_to project_url(post.project, subdomain: post.project.user.slug), class: "d-flex align-items-center" do
+  .text-smaller
+    span = "From "
+    span style="text-decoration: underline;" = post.project.title

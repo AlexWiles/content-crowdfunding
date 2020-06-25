@@ -1,0 +1,24 @@
+= content_for(:html_title) { "Back - #{@project.title || "Draft Project"}" }
+
+.container style="min-height: 90vh"
+  .row.pb-2.justify-content-center
+    .col-12.col-md-10.col-lg-8.max-width-content
+      .row.mt-5.justify-content-center
+        .col-12.col-md-10
+          .row.mb-2
+            .col-12
+              = link_to @project, class: "d-flex" do
+                .d-flex.flex-column.justify-content-center.font-weight-light
+                  span= @project.title.presence || "Draft Project"
+
+          .row
+            .col-12.mb-2
+                .font-weight-bold Purchase access to this project.
+                p.font-weight-light You will receive immediate and unlimited access to this digital project.
+                .d-flex.align-items-end
+                  h1.mb-0= "#{@project.current_paywall.amount.format(no_cents: true)} USD"
+                  .ml-2.mb-1 one-time payment
+
+          .row
+            .col-12.mb-5
+              = react React::BuyForm, current_user, @project

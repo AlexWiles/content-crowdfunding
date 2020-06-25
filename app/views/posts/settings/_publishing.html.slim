@@ -1,0 +1,25 @@
+- post
+- user
+
+.row
+  .col
+    .mb-2
+      = render partial: "shared/publish_state", locals: {publishable: post}
+
+    - if post.published?
+      p This post is published.
+    - else
+      p This post is not published and is only visible to you.
+      - can_publish, reason = ProjectService.can_publish_reason(post.project)
+      - if can_publish
+          .mt-2
+            = react React::PostPublishButton, post
+
+      - elsif reason == ProjectService::CannotPublish::ConnectStripe
+        .mt-2
+          p You need to connect to Stripe before publishing a crowdfunded project so you can get paid.
+          a.btn.btn-success href=settings_payments_path Connect with Stripe in your payment settings
+
+      - else
+        .mt-2
+          p= reason

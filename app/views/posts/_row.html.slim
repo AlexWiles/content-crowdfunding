@@ -1,0 +1,33 @@
+- post
+- user
+- can_see_content
+- show_title = show_title.nil? ? false : show_title
+- show_author = show_author.nil? ? true : show_author
+- show_image = show_image.nil? ? false : show_image && post.first_image_url.present?
+- index ||= -1
+
+.d-flex.border.p-2.position-relative style="position: relative;"
+  .d-none.d-md-flex.mr-3
+    = render partial: "posts/row/image", locals: {height: 116, width: 175, post: post, can_see_content: can_see_content}
+
+  .d-flex.flex-column
+    .d-flex
+      = render partial: "posts/row/title", locals: {post: post, can_see_content: can_see_content}
+    - if post.description.present?
+      .mb-1.d-flex.text-normal.text-muted
+        = post.description.presence
+
+
+    .d-flex
+      .d-flex.align-items-center
+        a href=root_url(subdomain: post.project.user.slug)
+          - if post.project.user.avatar.attached?
+            .d-flex style="height: 20px; width: 20px; border-radius: 25px;"
+              img.w-100.h-100 style="border-radius: 20px; object-fit: cover" src=AttachmentService.cdn_url(post.project.user.avatar.variant(resize_to_limit: [100, 100]))
+          - else
+            div style="width: 20px; height: 20px; border-radius: 25px; background-color: #{post.project.user.color}"
+        .d-flex.flex-column.justify-content-center
+          .ml-2.text-smaller style="line-height: 1rem" = link_to post.project.user.display_name || post.project.user.username, root_url(subdomain: post.project.user.slug)
+
+    .d-flex.text-smaller.text-muted.align-items-center
+      = render partial: "posts/row/date", locals: {post: post, can_see_content: can_see_content}

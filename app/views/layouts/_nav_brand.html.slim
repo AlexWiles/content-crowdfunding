@@ -1,0 +1,9 @@
+- url = root_url(subdomain: "")
+= link_to url, class: "d-flex cursor-pointer" do
+  - if current_user.present?
+    .d-none.d-md-flex.flex-column.align-items-center.justify-content-center
+      h5.mb-0.text-lowercase = Rails.configuration.brand_name
+    .d-flex.d-md-none.align-items-center
+      h5.mb-0 = "un,"
+  - else
+    h5.d-flex.align-items-center.mb-0.text-lowercase = Rails.configuration.brand_name

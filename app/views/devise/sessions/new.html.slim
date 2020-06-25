@@ -1,0 +1,31 @@
+.container.text-smaller style="min-height: 70vh"
+
+  = render partial: "devise/shared/brand"
+
+  = render partial: "devise/shared/nav"
+
+  .row.justify-content-center
+    .col-12.col-md-5.border.p-3.m-4
+      .mb-4
+        h4 Login
+
+      = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+        - if flash[:alert]
+          .mb-2
+            = flash[:alert]
+
+        .form-group
+          = f.label :email
+          br/
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+        .form-group
+          = f.label :password
+          br/
+          = f.password_field :password, autocomplete: "current-password", class: "form-control"
+        - if devise_mapping.rememberable?
+          .form-group
+            = f.check_box :remember_me, class: "mr-3"
+            = f.label :remember_me
+        .actions.mb-2
+          = f.submit "Log in", class: "btn btn-primary"
+      = render "devise/shared/links"

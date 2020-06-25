@@ -1,0 +1,9 @@
+= content_for(:html_title) { "New series" }
+
+= content_for(:navbar) do
+  = render partial: "layouts/navbar", locals: {options: {sticky: true}}
+
+.container#new style="min-height: 90vh"
+  .row.pb-2.justify-content-center
+    .col-12.col-md-10.col-lg-8.max-width-content
+      = render partial: "form", locals: {user: current_user, project: @project, path: user_projects_path(current_user)}

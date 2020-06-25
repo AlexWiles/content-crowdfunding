@@ -1,0 +1,27 @@
+= content_for(:html_title) { @project.title }
+= content_for(:meta_description) { @project.description }
+= content_for(:meta_image) { @project.first_image_url || @project.user.avatar_url}
+
+- content_for(:hide_footer) { "true" }
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+    - if @project.is_users(current_user)
+      .mr-3.d-flex.align-items-center
+        - if @project.unpublished?
+          = link_to user_project_settings_url(current_user, @project, subdomain: "") do
+            = render partial: "shared/publish_state", locals: {publishable: @project}
+        - else
+          = render partial: "shared/publish_state", locals: {publishable: @project}
+      .mr-3.d-flex.align-items-center
+        = react React::ProjectSettingsDropdown, @project
+    - elsif !current_user
+      .d-flex.justify-content-end.align-items-center.h-100
+        = link_to root_url(subdomain: "") do
+          .btn.btn-sm.btn-outline-primary style="padding: 1px 5px !important;" Join Uncomma
+
+
+.container
+  .row.pb-2.justify-content-center style="min-height: 100vh"
+    .col-12
+      = react React::ProjectEdit, @project

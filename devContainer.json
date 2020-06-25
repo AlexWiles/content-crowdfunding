@@ -1,0 +1,12 @@
+{
+  "workspaceFolder": "/uncomma",
+  "extensions": [
+    "bung87.rails",
+    "bung87.vscode-gemfile",
+    "castwide.solargraph",
+    "rebornix.ruby",
+    "sianglim.slim",
+    "wingrunr21.vscode-ruby",
+    "esbenp.prettier-vscode"
+  ]
+}

@@ -1,0 +1,13 @@
+= content_for(:html_title) { "User payments settings" }
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+    - nil
+
+
+.container style="min-height: 90vh"
+  .row.justify-content-center.py-2
+    .col-12.col-md-8.max-width-content.pb-5
+      .mt-2.mb-2
+        = render partial: "nav"
+      = react React::SettingsPaymentPage, current_user, @stripe_oauth_link

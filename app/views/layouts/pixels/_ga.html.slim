@@ -1,0 +1,11 @@
+- user_id
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-159822475-1"></script>
+javascript:
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  var userId = "#{user_id}";
+  var data = userId ? {'user_id': userId} : {};
+  gtag('config', 'UA-159822475-1', data);

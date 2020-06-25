@@ -1,0 +1,8 @@
+- publishable
+
+- if publishable.published?
+  span.badge.badge-success Published
+- elsif publishable.unpublished?
+  span.badge.badge-secondary Draft
+- elsif publishable.archived?
+  span.badge.badge-warning Archived

@@ -1,0 +1,10 @@
+.row.justify-content-center
+  .col-12.col-md-5.border-bottom.text-bigger.px-md-0
+    ul.nav.flex-row
+      li.nav-item
+        - active_class = current_page?(new_user_session_path) ? "active font-weight-medium border-bottom-strong" : ""
+        = link_to "Login", new_user_session_url(subdomain: ""), class: "flex-sm-fill text-sm-center nav-link #{active_class}"
+      li.nav-item
+        - active_class = current_page?(new_user_registration_path) ? "active font-weight-medium border-bottom-strong" : ""
+        = link_to "Sign up", new_user_registration_url(subdomain: ""), class: "flex-sm-fill text-sm-center nav-link #{active_class}"
+        = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|

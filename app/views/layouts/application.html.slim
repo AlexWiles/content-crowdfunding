@@ -1,0 +1,49 @@
+doctype html
+html
+  head
+    meta content=("text/html; charset=UTF-8") http-equiv="Content-Type" /
+    - page_title = content_for?(:html_title) ? "#{yield(:html_title)} | #{Rails.configuration.brand_name}".html_safe : Rails.configuration.brand_name
+    title= page_title
+    meta content="width=device-width, initial-scale=1" name="viewport" /
+    = csrf_meta_tags
+    = csp_meta_tag
+    = meta_tag("description",:meta_description)
+    = meta_tag("og:site_name",:meta_site_name, Rails.configuration.brand_name)
+    = meta_tag("og:type",:meta_type, "website")
+    = meta_tag("og:title",:meta_title, page_title)
+    = meta_tag("og:url",:meta_url, request.original_url)
+    = meta_tag("og:description",:meta_description)
+    = meta_tag("og:image",:meta_image)
+    = meta_tag("og:type",:og_type)
+    = meta_tag("twitter:card", :twitter_card, "summary_large_image")
+    = meta_tag("twitter:title",:meta_title, page_title)
+    = meta_tag("twitter:description",:meta_description)
+    = meta_tag("twitter:image",:meta_image)
+
+    - if Rails.env.production?
+      = render partial: "layouts/pixels/ga", locals: {user_id: current_user&.id}
+      // = render partial: "layouts/pixels/rollbar"
+      // = render partial: "layouts/pixels/fb"
+
+    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = favicon_link_tag asset_path('favicon.png')
+
+    - if content_for?(:header)
+      = content_for(:header)
+
+  body style="min-height: 99vh;"
+    - if content_for?(:navbar)
+      = content_for(:navbar)
+    - else
+      = render layout: "layouts/navbar", locals: {options: {sticky: false}} do
+        - nil
+    = react_component "Flash", {notice: flash[:notice] || @message[:notice], warning: flash[:warning] || @message[:warning]}
+
+    = yield
+
+    - unless content_for?(:hide_footer)
+      = render "layouts/footer"
+
+    #react-main
+

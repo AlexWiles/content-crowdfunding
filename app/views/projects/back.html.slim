@@ -1,0 +1,25 @@
+= content_for(:html_title) { "Back - #{@project.title || "Draft Project"}" }
+
+.container style="min-height: 90vh"
+  .row.pb-2.justify-content-center
+    .col-12.col-md-10.col-lg-8.max-width-content
+      .row.mt-5.justify-content-center
+        .col-12.col-md-10
+          .row.mb-4
+            .col-12
+              = link_to @project, class: "font-weight-bold d-flex" do
+                .d-flex.flex-column.justify-content-center
+                  span= @project.title.presence || "Draft Project"
+
+          .row
+            .col-12.mb-2
+              - if @project.current_paywall.pledges.find_by(user: current_user)
+                h4 Update your pledge
+                p You already backed this project. You can update your pledge up until the crowdfunding campaign ends.
+              - else
+                h4 Back this project
+                p Contributing to this project will help bring it to life. This project will only be created if the funding goal is met.
+
+          .row
+            .col-12.mb-5
+              = react React::BackerForm, current_user, @project

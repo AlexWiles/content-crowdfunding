@@ -1,0 +1,23 @@
+.p-4.mt-4.border
+  h1
+    span Create your first project
+  .mt-4.text-bigger
+    .font-weight-bold
+      span What is a project?
+    div A project is a collection of content.
+    div Once you create it, you can add content to it over time.
+
+  .mt-4.text-bigger
+    .font-weight-bold
+      span How do I use a project?
+    div Some project are long running, like a weekly newsletter.
+    div Some project are limited to a fixed number of posts, like an online cookbook.
+
+  .mt-4.text-bigger
+    .font-weight-bold
+      span How do I crowdfund or add a paywall to a project?
+    div When you create a project, you will be have the option to make it free or crowdfunded.
+
+  .mt-4
+    = link_to new_user_project_path(current_user), data: { turbolinks: false } do
+      .btn.btn-success Create project

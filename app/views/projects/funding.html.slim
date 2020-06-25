@@ -1,0 +1,82 @@
+= content_for(:html_title) { "Funding - #{@project.title}" }
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+    - if @project.is_users(current_user)
+      .d-flex.mr-3.align-items-center
+        = react React::ProjectSettingsDropdown, @project
+
+
+.container
+  .row.justify-content-center.mb-2
+    .col-12.col-md-10.col-lg-8.max-width-content.pb-5
+      .row.mt-4
+        .col-12
+          h5.text-muted
+            = link_to @project.title, user_project_path(current_user, @project, subdomain: current_user.slug), class: "text-muted"
+          h2 Project Funding
+
+      .row.mt-3
+        .col-12.col-md-8
+          .row.border-bottom.py-1
+            .col-4.font-weight-medium Status
+            .col-8= @project.crowdfund.aasm_state
+          .row.border-bottom.py-1
+            .col-4.font-weight-medium Raised
+            .col-8= total_pledged_formatted(@project.crowdfund)
+
+          .row.border-bottom.py-1
+            .col-4.font-weight-medium Goal
+            .col-8= @project.crowdfund.amount.format(no_cents: true)
+
+          .row.border-bottom.py-1
+            .col-4.font-weight-medium Backers
+            .col-8= number_of_backers(@project.crowdfund)
+
+          .row.border-bottom.py-1
+            .col-4.font-weight-medium Duration
+            .col-8= "#{@project.crowdfund.duration} days"
+
+          - if @project.crowdfund.published?
+            .row.border-bottom.py-1
+              .col-4.font-weight-medium Started
+              .col-8= @project.published_at&.strftime('%B %d, %y %H:%M')
+            .row.border-bottom.py-1
+              .col-4.font-weight-medium Ends on
+              .col-8= @project.crowdfund.expires_at&.strftime('%B %d, %y %H:%M')
+            .row.border-bottom.py-1
+              .col-4.font-weight-medium Time left
+              .col-8= distance_of_time_in_words(@project.crowdfund.expires_at.to_date, Time.now)
+
+          - elsif !@project.crowdfund.unpublished?
+            .row.border-bottom.py-1
+              .col-4.font-weight-medium Started
+              .col-8= @project.published_at&.strftime('%B %d, %y %H:%M')
+            .row.border-bottom.py-1
+              .col-4.font-weight-medium Finished
+              .col-8= @project.crowdfund.expires_at&.strftime('%B %d, %y %H:%M')
+
+
+      .row.mt-5
+        .col-12
+          h3 Backers
+      .row.mt-2
+        .col-12
+          - pledges = @project.crowdfund.pledges
+          - if pledges.size == 0
+            div No backers yet
+          - else
+            .border-bottom
+            - @project.crowdfund.pledges.order(created_at: :desc).each do |pledge|
+              .border-bottom.py-3
+                div
+                  = pledge.amount.format(no_cents: true)
+                  =" from "
+                  - if pledge.user.slug.present?
+                    = link_to root_url(subdomain: pledge.user.slug) do
+                      = pledge.user.display_name.presence || "User"
+                  - else
+                    | User
+                .text-smaller.text-muted
+                  = "#{pledge.created_at.strftime('%B %d, %y %H:%M')}"
+

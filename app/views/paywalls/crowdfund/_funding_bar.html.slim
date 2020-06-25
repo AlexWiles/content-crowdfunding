@@ -1,0 +1,14 @@
+- project
+- paywall
+- options = {backer_count: true, end_date: true, show_bar: false}.merge(options || {})
+
+.div.w-100
+  .d-flex.justify-content-between.align-items-baseline.flex-wrap
+    .text-smaller
+      span= total_pledged_formatted(paywall)
+      span= " raised from "
+      span= number_of_backers(paywall)
+
+    div
+      span.text-smaller= "#{goal_formatted(paywall)} goal"
+  = render partial: "paywalls/crowdfund/bar", locals: {paywall: paywall}

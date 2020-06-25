@@ -1,0 +1,11 @@
+ul.nav.flex-row.border-bottom
+  - active_classes = "active font-weight-medium border-bottom-strong"
+  li.nav-item
+    - active_class = current_page?(settings_path) ?  active_classes: ""
+    = link_to "User", settings_path, class: "flex-sm-fill text-sm-center nav-link #{active_class}"
+  li.nav-item
+    - active_class = current_page?(settings_emails_path) ?  active_classes: ""
+    = link_to "Emails", settings_emails_path, class: "flex-sm-fill text-sm-center nav-link #{active_class}"
+  li.nav-item
+    - active_class = current_page?(settings_payments_path) ?  active_classes: ""
+    = link_to "Payments", settings_payments_path, class: "flex-sm-fill text-sm-center nav-link #{active_class}"

@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= Rails.application.credentials.dig(:postgres, :user) %>
+  password: <%= Rails.application.credentials.dig(:postgres, :password) %>
+
+development:
+  <<: *default
+  host: db
+  database: uncomma_development
+test:
+  <<: *default
+  database: uncomma_test
+  host: db
+production:
+  <<: *default
+  database: uncomma_production
+  url:  <%= ENV.fetch("POSTGRES_URL", '') %>

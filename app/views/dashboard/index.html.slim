@@ -1,0 +1,47 @@
+= content_for(:html_title) { "Dashboard" }
+
+.container style="min-height: 90vh"
+  .row.justify-content-center.pb-2.mb-5
+    .col-12.col-md-10.col-lg-8.max-width-content
+      .row.my-3
+        .col-12
+          .d-flex.justify-content-between
+            .font-weight-bold Your Projects
+            .d-flex
+              = link_to new_user_project_path(current_user), data: { turbolinks: false } do
+                .btn.btn-sm.btn-outline-success New Project
+
+      .row.mt-3.mb-4
+        .col-12
+          .d-flex.justify-content-between.flex-wrap-reverse.border-bottom
+            ul.nav.nav.d-flex.flex-row.text-smaller
+              li.nav-item
+                - active_class = @tab == "draft" ? "active font-weight-medium border-bottom-strong" : ""
+                a.flex-sm-fill.text-sm-center.nav-link class=active_class href=dashboard_url(tab: "draft")
+                  span.mr-1 Drafts
+                  sup = @draft_count
+              li.nav-item
+                - active_class = @tab == "published" ? "active font-weight-medium border-bottom-strong" : ""
+                a.flex-sm-fill.text-sm-center.nav-link class=active_class href=dashboard_url(tab: "published")
+                  span.mr-1 Published
+                  sup = @published_count
+
+      - if current_user.projects.count == 0
+        .row.my-3
+          .col-12.col-md-10.font-weight-light
+            .mb-3.font-weight-medium Welcome to Uncomma!
+            .mb-3 Projects are a collection of posts. You can add posts to a project over time. It works like a blog or newsletter.
+            .mb-3 By default, a project is free. In the project settings you can configure crowdfunding or paywall settings.
+            div
+              = link_to new_user_project_path(current_user), data: { turbolinks: false } do
+                .btn.btn-primary Create your first project
+      - else
+        - if @tab == "published"
+          = render partial: "published", locals: {user: current_user}
+        - if @tab == "draft"
+          = render partial: "draft", locals: {user: current_user}
+
+
+
+
+

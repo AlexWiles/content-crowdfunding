@@ -1,0 +1,11 @@
+- user
+- project
+
+ul.nav.flex-row.border-bottom
+  - active_classes = "active font-weight-medium border-bottom-strong"
+  li.nav-item
+    - active_class = current_page?(user_project_settings_path(user, project)) || current_page?(user_project_settings_path(user, project.id)) ?  active_classes: ""
+    = link_to "Project", user_project_settings_url(user, project, subdomain: ""), class: "flex-sm-fill text-sm-center nav-link #{active_class}"
+  li.nav-item
+    - active_class = current_page?(user_project_money_path(user, project)) || current_page?(user_project_money_path(user, project.id)) ?  active_classes: ""
+    = link_to "Money", user_project_money_url(user, project, subdomain: ""), class: "flex-sm-fill text-sm-center nav-link #{active_class}"

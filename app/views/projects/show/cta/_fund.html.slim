@@ -1,0 +1,33 @@
+- user
+- project
+- crowdfund = project.crowdfund
+
+.row.d-flex.justify-content-center.border-bottom
+  .col-12.col-md-10.col-lg-8.py-3.max-width-content
+    - pledge = crowdfund.for_user(user)
+    - if pledge
+      .d-flex.justify-content-between.flex-wrap
+        .font-weight-medium.text-smaller = "You pledged #{pledge.amount.format(no_cents: true)}"
+        .font-weight-medium.text-smaller
+          = DateService.rem_str(crowdfund.expires_at)
+      .d-flex.flex-grow-1.text-smaller.mt-2
+        = render partial: "paywalls/crowdfund/funding_bar", locals: {options: {backer_count: true, show_bar: true}, project: project, paywall: project.current_paywall}
+      .mt-3
+        .d-flex.justify-content-between.flex-wrap
+          .mb-1.d-flex.align-items-center
+            a.btn.btn-success href=user_project_back_path(project.user, project)
+              |  Update pledge
+
+    - else
+      .d-flex.justify-content-between.flex-wrap
+        .font-weight-medium Help fund this project!
+        .d-flex.text-right.align-items-center
+          .font-weight-medium
+            = DateService.rem_str(crowdfund.expires_at)
+      .d-flex.flex-grow-1.mt-2
+        = render partial: "paywalls/crowdfund/funding_bar", locals: {options: {backer_count: true, show_bar: true}, project: project, paywall: project.current_paywall}
+      .mt-3
+        .d-flex.flex-wrap.justify-content-between
+          .d-flex.align-items-center.pb-2
+            a.btn.btn-success href=user_project_back_path(project.user, project)
+              | Back this project

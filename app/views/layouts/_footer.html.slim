@@ -1,0 +1,27 @@
+.container
+  .row.py-5.border-top.justify-content-center
+    .col-12.col-md-8.col-lg-6.max-width-content
+      .d-flex.justify-content-end
+        .d-flex.flex-wrap
+          .d-flex.flex-column.text-smaller.text-muted.line-smaller.mr-5.mb-4
+            a.mr-3 href=root_url uncomma
+            a.text-muted href="https://at.uncomma.com/all-about-uncomma" About
+            a.text-muted href="https://at.uncomma.com/all-about-uncomma/publishing-for-free" Publish for free
+            a.text-muted href="https://at.uncomma.com/all-about-uncomma/crowdfunding-a-project" Crowdfunding
+            a.text-muted href="https://at.uncomma.com/all-about-uncomma/selling-premium-content" Premium content
+
+          .d-flex.flex-column.text-smaller.line-smaller.mb-4
+            div Contact
+            a.d-flex.text-muted href="https://twitter.com/UncommaDotCom"
+              = react_component "FaTwitterSquare"
+              .ml-1 @UncommaDotCom
+            a.d-flex.text-muted href="mailto:hello@uncomma.com"
+              = react_component "MdEmail"
+              .ml-1 hello@uncomma.com
+            a.d-flex.text-muted href="https://www.facebook.com/uncomma"
+              = react_component "FaFacebookSquare"
+              .ml-1 Uncomma
+            a.d-flex.text-muted href="https://instagram.com/UncommaDotCom"
+              = react_component "FaInstagram"
+              .ml-1 @UncommaDotCom
+

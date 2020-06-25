@@ -1,0 +1,23 @@
+= content_for(:html_title) { "Following" }
+
+.container style="min-height: 90vh"
+  .row.justify-content-center.pb-2
+    .col-12.col-md-10.col-lg-8.max-width-content
+      .row.my-3.pb-3.border-bottom
+        .col-12.d-flex.justify-content-between
+          .font-weight-bold Following
+
+      .row.my-3
+        .col-12
+          - if @projects.present?
+            - @projects.each do |project|
+              - locals = {project: project}
+              - locals[:author] = true
+              - locals[:subtitle] = true
+              - locals[:multi_details] = true
+              - locals[:author_size] = :small
+              - locals[:icons] = false
+              .mb-4
+                = render partial: "projects/new_row", locals: locals
+          - else
+            p Not following any projects

@@ -1,0 +1,66 @@
+version: '3'
+services:
+  db:
+    image: postgres:11.6
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: uncomma_dev
+      POSTGRES_PASSWORD: uncomma_dev
+
+  redis:
+    image: redis:5.0.6-alpine
+    ports:
+      - "6379:6379"
+
+  web:
+    build: .
+    ports:
+      - "80:3000"
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - .:/uncomma
+      - bundle:/usr/local/bundle/
+    env_file:
+      - web_env
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: webpack
+      REDIS_URL: redis://redis:6379/0
+
+  sidekiq:
+    image: uncomma_web:latest
+    command: './bin/bundle exec sidekiq'
+    depends_on:
+      - redis
+      - db
+    volumes:
+      - .:/uncomma
+      - bundle:/usr/local/bundle/
+    env_file:
+      - web_env
+    environment:
+      REDIS_URL: redis://redis:6379/0
+
+  webpack:
+    image: uncomma_web:latest
+    command: './bin/webpack-dev-server'
+    environment:
+      WEBPACKER_DEV_SERVER_HOST: '0.0.0.0'
+    env_file:
+      - web_env
+    depends_on:
+      - db
+    volumes:
+      - .:/uncomma
+      - bundle:/usr/local/bundle/
+    ports:
+      - 3035:3035
+
+volumes:
+  bundle:
+  data:
+

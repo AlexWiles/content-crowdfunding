@@ -1,0 +1,44 @@
+- content_for(:html_title) { "About" }
+- content_for(:meta_image) { image_url('ogimage.png') }
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+    .text-smaller.d-flex.justify-content-end.align-items-end.h-100
+      - unless current_user.present?
+        a.mr-3.d-none.d-md-block href=new_user_session_url Log in
+        a href=new_user_registration_url Sign Up
+
+.container
+  .row.justify-content-center
+    .col-12.col-md-10.col-lg-8.max-width-content.mb-4
+      - screenshot_url = image_url("screenshot/fancyscreenshot.png")
+      - paywall_url = image_url("screenshot/sell.png")
+      //- body = JSON.parse('{"blocks":[{"key":"4b6rb","text":"Publish for free","type":"header-three","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"3rtc8","text":"Publish a blog, newsletter, or short project on Uncomma for free without limits. We provide you with a simple editor and easy publishing tools.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"9fq8g","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"deeh2","text":"Sell premium content","type":"header-three","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"bvemp","text":"Sell premium content to your audience. For a one-time fee, readers get access to a project. The money goes directly to the creator.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"251v0","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"9nu92","text":" ","type":"atomic","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":0}],"data":{}},{"key":"2nlef","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"433ha","text":"Crowdfund a writing project","type":"header-three","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"ftjhr","text":"Create a project with a funding goal and raise money from readers. No one will be charged for a pledge towards a project unless it reaches its funding goal. If the funding goal is met, you can create the project and the backers will get notified as it is published.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"73dih","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"d45fk","text":" ","type":"atomic","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":1}],"data":{}},{"key":"93obd","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"cgcds","text":"Our mission is to support creators","type":"header-three","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"dab3d","text":"We give you the tools to publish, fund, and sell your creative work. Anything you publish for free will always be free and accessible to everyone. Premium content sales will always go to the creator. ","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"3ff4b","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"1o1ed","text":"We only make money when you do. We take 10% plus credit card fees on transactions that run through Uncomma. We are building a sustainable platform that creators can rely on.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"69c3j","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"8g0eh","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{"0":{"type":"IMAGE","mutability":"IMMUTABLE","data":{"src":"' +  paywall_url + '","uncommaId":195,"width":"570px","shadow":true}},"1":{"type":"IMAGE","mutability":"IMMUTABLE","data":{"src":"' + screenshot_url + '","uncommaId":196,"width":"639px","shadow":false}}}}')
+      - body = JSON.parse('{"blocks":[{"key":"4b6rb","text":"Uncomma is a platform for independent creators","type":"header-three","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"frbk6","text":"We give you the tools to publish and fund creative digital projects.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"d78hh","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"fkfed","text":"Publish for free","type":"header-three","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"3rtc8","text":"Publish a blog, newsletter, or short project on Uncomma for free without limits. We provide you with a simple editor and easy publishing tools.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"9fq8g","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"deeh2","text":"Sell premium content","type":"header-three","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"bvemp","text":"Sell premium content to your audience. For a one-time fee, fans get access to a project. The money goes directly to the creator.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"251v0","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"9nu92","text":" ","type":"atomic","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":0}],"data":{}},{"key":"2nlef","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"433ha","text":"Crowdfund a project","type":"header-three","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"ftjhr","text":"Create a project with a funding goal and raise money from your audience. No one will be charged for a pledge towards a project unless it reaches its funding goal. If the funding goal is met, you can create the project and the backers will get notified as it is published.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"73dih","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"d45fk","text":" ","type":"atomic","depth":0,"inlineStyleRanges":[],"entityRanges":[{"offset":0,"length":1,"key":1}],"data":{}},{"key":"93obd","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"cgcds","text":"Our mission is to support creators","type":"header-three","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"dab3d","text":"We give you the tools to publish, fund, and sell your creative work. Anything you publish for free will always be free and accessible to everyone. Premium content sales will always go to the creator. ","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"3ff4b","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"1o1ed","text":"We only make money when you do. We take 10% plus credit card fees on transactions that run through Uncomma. We are building a sustainable platform that creators can rely on.","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"69c3j","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}},{"key":"8g0eh","text":"","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{"0":{"type":"IMAGE","mutability":"IMMUTABLE","data":{"src":"' + paywall_url + '","uncommaId":195,"width":"570px","shadow":true}},"1":{"type":"IMAGE","mutability":"IMMUTABLE","data":{"src":"' + screenshot_url + '","uncommaId":196,"width":"639px","shadow":false}}}}')
+      = react_component "ExampleEditor", { body: body }
+
+
+- unless current_user.present?
+  .container.mt-5
+    .row.justify-content-center style="padding-top: 6rem; padding-bottom: 6rem;"
+      .col-12.col-lg-8
+        .row
+          .col-12.col-md-6.d-flex.justify-content-center.align-items-center.p-3
+            img src=image_url('undraw/selfie.svg') style="width: 100%; max-width: 350px; max-height: 350px;"
+          .col-12.col-md-6
+            h4 Join Uncomma
+            - resource = User.new
+            - resource_name = :user
+            = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+              = render "devise/shared/error_messages", resource: resource
+              .form-group
+                = f.label :email
+                br/
+                = f.email_field :email, autocomplete: "email", class: "form-control"
+              .actions.mb-2
+                = f.submit "Get started", class: "btn btn-success"
+
+
+
+
+

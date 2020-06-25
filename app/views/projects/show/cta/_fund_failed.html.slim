@@ -1,0 +1,13 @@
+- user
+- project
+- crowdfund = project.crowdfund
+
+.row.d-flex.justify-content-center.border-bottom
+  .col-12.col-md-10.col-lg-8.py-3.max-width-content
+    .d-flex.justify-content-between.flex-wrap
+      .text-smaller Failed to meet the funding goal
+      .d-flex.text-right.align-items-center
+        .font-weight-medium.text-smaller
+          = DateService.rem_str(crowdfund.expires_at)
+    .d-flex.flex-grow-1.text-smaller.text-muted.mt-1
+      = render partial: "paywalls/crowdfund/funding_bar", locals: {options: {backer_count: true, show_bar: true}, project: project, paywall: project.current_paywall}

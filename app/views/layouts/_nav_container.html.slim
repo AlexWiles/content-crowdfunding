@@ -1,0 +1,7 @@
+- options ||= {sticky: false}
+- sticky_class = options[:sticky] ? "position-sticky" : ""
+- sticky_style = options[:sticky] ? "top: 0" : ""
+
+.nav.sans-serif class=sticky_class style="z-index: 10; #{sticky_style}"
+  .w-100.d-flex.justify-content-between.py-2.border-bottom.bg-white.px-3 style="height: 48px;"
+    = yield

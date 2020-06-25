@@ -1,0 +1,9 @@
+- user
+
+.row.my-3
+  .col-12.px-2
+    .row
+      .col-12
+        - user.projects.published.order(published_at: :desc).each do |project|
+          .mb-4
+            = render partial: "projects/new_row", locals: {project: project, show_posts: false}

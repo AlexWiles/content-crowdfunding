@@ -1,0 +1,27 @@
+= content_for(:html_title) { "Email settings" }
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+    - nil
+
+
+.container style="min-height: 90vh"
+  .row.justify-content-center.py-2
+    .col-12.col-md-8.max-width-content.pb-5
+      .mt-2.mb-3
+        = render partial: "nav"
+      .mb-5
+        - if @projects.present?
+          - @projects.each do |follow|
+            - project = follow.project
+            .mb-3
+              .d-flex
+                = link_to project.title, project_url(project, subdomain: project.user.slug)
+              .d-flex.text-smaller
+                span.mr-1 by
+                = link_to project.user.display_name || project.user.slug, root_url(subdomain: project.user.slug)
+              div
+                = react React::ProjectEmailButton, current_user, project
+
+        - else
+          p.text-smaller No email subscriptions

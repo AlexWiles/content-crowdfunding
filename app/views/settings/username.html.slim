@@ -1,0 +1,11 @@
+= content_for(:html_title) { "Choose your domain" }
+
+= content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: true}} do
+    - nil
+
+
+.container style="min-height: 90vh"
+  .row.justify-content-center.py-2
+    .col-12.col-md-8.max-width-content.d-flex.flex-column.justify-content-center style="min-height: 70vh"
+      = react React::UsernamePage, @then

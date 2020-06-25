@@ -1,0 +1,65 @@
+- content_for(:html_title) { @post.title }
+- content_for(:meta_description) { @post.description }
+- content_for(:meta_image) { @post.first_image_url || @post.project.first_image_url }
+
+- content_for(:navbar) do
+  = render layout: "layouts/navbar", locals: {options: {sticky: false}} do
+    - if @post.project.is_users(current_user)
+      .mr-3.d-flex.align-items-center
+        = render partial: "shared/publish_state", locals: {publishable: @post}
+      .mr-3.d-flex.align-items-center
+        = react React::PostSettingsDropdown, @post
+    - elsif !current_user
+      .d-flex.justify-content-end.align-items-center.h-100
+        = link_to root_url(subdomain: "") do
+          .btn.btn-sm.btn-outline-primary style="padding: 1px 5px !important;" Start publishing
+
+.container
+  .row.pb-2.justify-content-center style="min-height: 90vh"
+    .col-12
+      .row
+        .col-12
+          .mb-3
+            = render partial: "projects/show/cta", locals: {project: @project, user: current_user}
+
+      .row.justify-content-center
+        .col-12.col-md-10.col-lg-8.max-width-content
+          .row
+            .col-12
+              .d-flex
+                = render partial: "posts/project_title", locals: {post: @post}
+
+              = render partial: 'shared/title_description', locals: {object: @post}
+              .row
+                .col-12.d-flex.justify-content-between.align-items-center
+                  = render partial: 'shared/author', locals: {user: @post.project.user, publishable: @post}
+                  - if @post.published?
+                    .share-icons.d-flex.jusify-content-end.align-items-center
+                      a.mr-3 href=ShareService.post_twitter_url(@post)
+                        = react_component "FaTwitterSquare"
+                      a.mr-3 href=ShareService.post_facebook_url(@post)
+                        = react_component "FaFacebookSquare"
+
+
+      .row.justify-content-center
+        .col-12.col-md-10.col-lg-8.max-width-content.pt-2
+          - can_see_content, reason = ContentService.user_can_see(current_user, @post.project)
+
+          - if @post.public || can_see_content
+            .row.my-3
+              .col-12.mb-5
+                - if @post.body
+                  - begin
+                    == DraftJsService.browser(@post.body)
+                  - rescue => e
+                    - if Rails.env.production?
+                      - Rollbar.error(e)
+                      = react React::PostBody, @post
+                    - else
+                      - raise e
+          - else
+            = render partial: "projects/show/can_see_banner", locals: {can_see_content: can_see_content, reason: reason}
+
+
+
+

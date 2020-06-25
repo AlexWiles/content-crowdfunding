@@ -1,0 +1,6 @@
+- project
+
+.text-muted.text-smaller.d-flex
+  = pluralize(project.posts.published.count, "post")
+  - if project.is_users(current_user)
+    =", #{pluralize(project.posts.unpublished.count, "drafts")} "

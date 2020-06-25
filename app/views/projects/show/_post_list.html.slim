@@ -1,0 +1,11 @@
+- posts
+- user
+- can_see_content
+
+.row.mb-3
+  .col-12
+    .row
+      .col-12
+        - first = true
+        - posts.each.with_index do |post, index|
+          = render partial: "posts/row", locals: {post: post, user: current_user, show_image: true, can_see_content: can_see_content, index: index}

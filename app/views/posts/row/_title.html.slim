@@ -1,0 +1,15 @@
+- post
+- can_see_content
+
+- path = post.published? ? project_post_url(post.project, post, subdomain: post.project.user.slug) : edit_user_project_post_url(current_user, post.project, post, subdomain: post.project.user.slug)
+- if post.public || can_see_content
+  a href=path
+    - if post.title.present?
+      = post.title.presence
+    - else
+      .text-muted Draft Post
+- else
+  - if post.title.present?
+    = post.title.presence
+  - else
+    .text-muted Draft Post

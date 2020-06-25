@@ -1,0 +1,84 @@
+- project
+- post_count = project.posts.published.count
+- show_posts = show_posts.nil? ? true : show_posts
+
+.p-3.bg-white.border
+  .d-flex.mb-2
+    .d-flex.align-items-center
+      a href=root_url(subdomain: project.user.slug)
+        - if project.user.avatar.attached?
+          .d-flex style="height: 25px; width: 25px; border-radius: 25px;"
+            img style="height: 100%; width: 100%; border-radius: 20px; object-fit: cover" src=AttachmentService.cdn_url(project.user.avatar.variant(resize_to_limit: [100, 100]))
+        - else
+          div style="width: 25px; height: 25px; border-radius: 25px; background-color: #{project.user.color}"
+      .d-flex.flex-column.justify-content-center
+        .ml-2.text-smaller style="line-height: 1rem" = link_to project.user.display_name || project.user.username, root_url(subdomain: project.user.slug)
+
+  - if project.first_image_url
+    a.d-flex.mb-2 style="max-height: 200px;" href=project_url(project, subdomain: project.user.slug)
+      img.w-100 style="object-fit: cover;" src=project.first_image_url
+
+  .d-flex.mb-1
+    a href=project_url(project, subdomain: project.user.slug)
+      - if project.title.present?
+        h5.mb-0 = project.title
+      - else
+        h5.mb-0.text-muted = "Project"
+
+  .d-flex
+    .font-weight-light = project.description
+
+  - if project.current_paywall.crowdfund?
+    - if project.current_paywall.published? || project.current_paywall.unpublished?
+      .mt-2
+        .d-flex.justify-content-between.flex-wrap
+          .text-smaller = "#{percent_funded(project.current_paywall)} funded"
+          .text-smaller
+            - if project.current_paywall.expires_at
+              = DateService.rem_str(project.current_paywall.expires_at)
+            - else
+              - duration = project.current_paywall.duration
+              = "#{duration} #{'day'.pluralize(duration)}"
+
+        .d-flex
+          = render partial: "paywalls/crowdfund/bar", locals: {paywall: project.current_paywall}
+    - elsif project.current_paywall.successful?
+      - count = project.current_paywall.pledges.count
+      .d-flex.mt-2.text-smaller.text-muted = "Funded by #{count} #{'backer'.pluralize(count)}"
+    - elsif project.current_paywall.failed?
+      .d-flex.mt-2.text-smaller.text-muted Did not meet funding goal
+
+
+  - if project.current_paywall.paywall?
+    .d-flex.text-smaller
+      .mr-2.text-smaller.badge.badge-primary.d-flex.justify-content-center.align-items-center
+        = project.paywalls.buy.first.amount.format(no_cents: true)
+      div
+        a href=project_posts_url(project, subdomain: project.user.slug)
+          - post_count = project.posts.published.count
+          = "#{post_count} #{'post'.pluralize(post_count)}"
+
+
+  - else
+    .d-flex.text-smaller
+      a href=project_posts_url(project, subdomain: project.user.slug)
+        = "#{post_count} #{'post'.pluralize(post_count)}"
+
+  - if show_posts && post_count > 0
+    .d-flex.border-top.mt-2.mb-3
+    .d-flex.flex-column
+      - can_see_content, reason = ContentService.user_can_see(current_user, project)
+      - posts = project.posts.published.order(published_at: project.post_order.presence || Project::DEFAULT_POST_ORDER).limit(3)
+      - posts.each do |post|
+        .d-flex.mb-2
+          .d-flex.mr-2
+            = render partial: "posts/row/image", locals: {width: 60, height: 40, post: post, can_see_content: can_see_content}
+          .text-smaller.line-smaller
+            = render partial: "posts/row/title", locals: {post: post, can_see_content: can_see_content}
+            .d-flex.text-muted = render partial: "posts/row/date", locals: {post: post, can_see_content: can_see_content}
+    - if post_count > 0
+    .text-smaller.text-muted
+      a.text-muted href=project_posts_url(project, subdomain: project.user.slug) More posts
+
+
+

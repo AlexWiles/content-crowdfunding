@@ -1,0 +1,18 @@
+- can_see_content
+- reason
+
+- if can_see_content
+  - if reason == ContentService::Visibility::CrowdfundPledged
+    .alert.alert-info.mt-3.mb-4.text-smaller
+      | You have access this project because you helped fund it.
+- else
+  - if reason == ContentService::Visibility::CrowdfundNoPledge
+    .alert.alert-warning.mt-3.mb-4.text-smaller
+      | Only backers of this crowdfunding campaign that met the minimum pledge amount can see this project's content.
+  - if reason == ContentService::Visibility::CrowdfundFailed
+    .alert.alert-warning.mt-3.mb-4.text-smaller
+      | This crowdfunded project failed to reach its funding goal.
+  - if reason == ContentService::Visibility::NeedToBuy
+    .alert.alert-warning.mt-3.mb-4.text-smaller
+      | Please purchase access to this project.
+

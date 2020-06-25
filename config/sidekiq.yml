@@ -1,0 +1,16 @@
+---
+:concurrency: 10
+:queues:
+  - default
+  - active_storage_purge
+  - active_storage_analysis
+:schedule:
+  finish_expired_paywalls:
+    cron: '0 * * * * *'
+    class: FinishExpiredPaywallsWorker
+  post_notification_worker:
+    cron: '0 * * * * *'
+    class: PostNotificationWorker
+  stripe_charge_uncharged:
+    cron: '0 * * * * *'
+    class: StripeChargeUnchargedWorker

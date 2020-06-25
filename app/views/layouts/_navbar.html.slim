@@ -1,0 +1,19 @@
+- options ||= {sticky: false}
+- sticky_class = options[:sticky] ? "position-sticky" : ""
+- sticky_style = options[:sticky] ? "top: 0" : ""
+
+= render layout: "layouts/nav_container", locals: {options: options} do
+  - if current_user.present?
+    .flex-1.d-none.d-md-block
+    .flex-1.d-flex.justify-content-left.justify-content-md-center
+      = render partial: "layouts/nav_brand"
+    .flex-1.text-right.d-flex.justify-content-end
+      = yield if block_given?
+      .d-flex.flex-column.justify-content-center
+        = react React::UserDropdown, current_user
+  - else
+    .flex-1.d-none.d-md-block
+    .flex-1.d-flex.justify-content-left.justify-content-md-center
+      = render partial: "layouts/nav_brand"
+    .flex-1.d-md-block
+      = yield if block_given?

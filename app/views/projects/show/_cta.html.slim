@@ -1,0 +1,25 @@
+- user
+- project
+
+- cta = ProjectService.get_cta(user, project)
+
+- if cta == ProjectService::CTA::Fund
+  = render partial: "projects/show/cta/fund", locals: {project: project, user: user}
+
+- elsif cta == ProjectService::CTA::MockFund
+  = render partial: "projects/show/cta/mock_fund", locals: {project: project, user: user}
+
+- elsif cta == ProjectService::CTA::FundFailed
+  = render partial: "projects/show/cta/fund_failed", locals: {project: project, user: user}
+
+- elsif cta == ProjectService::CTA::FundSuccess
+  = render partial: "projects/show/cta/fund_success", locals: {project: project, user: user}
+
+- elsif cta == ProjectService::CTA::Subscribe
+  = react React::SubscribeCta, project, form_authenticity_token
+
+- elsif cta == ProjectService::CTA::Follow
+  = render partial: "projects/show/cta/follow", locals: {project: project, user: user}
+
+- elsif cta == ProjectService::CTA::Paywall
+  = render partial: "projects/show/cta/buy", locals: {project: project, user: user}

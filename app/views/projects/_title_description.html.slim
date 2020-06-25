@@ -1,0 +1,11 @@
+.row
+  .col-12
+    h2.display-5.pt-2
+      span= project.title
+.row
+  .col-12
+    h3.text-muted = project.description
+
+.row.mt-2
+  .col-12
+    = render partial: 'shared/author', locals: {user: project.user, publishable: project}

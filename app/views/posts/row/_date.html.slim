@@ -1,0 +1,9 @@
+- post
+- can_see_content
+
+- unless post.public || can_see_content
+  = react_component "FiLock", {}, "d-flex align-items-center mr-2"
+- if post.published?
+  = post.published_at&.strftime("%B %d, %Y")
+- else
+  = "#{post&.created_at&.strftime("%B %d, %Y")}"
