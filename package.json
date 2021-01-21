@@ -19,7 +19,7 @@
     "bootstrap": "^4.4.1",
     "draft-js": "^0.11.4",
     "feather-icons": "^4.26.0",
-    "immer": "^6.0.5",
+    "immer": "^8.0.1",
     "immutable": "^4.0.0-rc.12",
     "jquery": "^3.4.1",
     "moment": "^2.24.0",
